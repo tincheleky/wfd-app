@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_homeactivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.tin.whattoeat.HomeActivity"
+    android:weightSum="100"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/banner_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        android:text="What's for dinner ??? "
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:background="@android:color/holo_red_dark"
+        android:onClick="displayAboutUs"/>
+
+    <LinearLayout
+        android:id="@+id/home_upper_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <LinearLayout
+            android:id="@+id/home_sub1_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            android:background="@android:color/darker_gray">
+
+            <ImageView
+                android:id="@+id/home_sub1_img"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="80"
+                android:background="@android:color/holo_blue_dark"/>
+            <TextView
+                android:id="@+id/home_sub1_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/home_sub1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/home_sub2_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            android:background="@android:color/holo_blue_bright">
+
+            <ImageView
+                android:id="@+id/home_sub2_img"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="80"
+                android:background="@android:color/holo_green_light"/>
+
+            <TextView
+                android:id="@+id/home_sub2_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/home_sub2"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_lower_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <LinearLayout
+            android:id="@+id/home_sub3_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            android:background="@android:color/darker_gray">
+
+            <ImageView
+                android:id="@+id/home_sub3_img"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="80"
+                android:background="@android:color/holo_orange_dark"/>
+            <TextView
+                android:id="@+id/home_sub3_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/home_sub3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/home_sub4_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            android:background="@android:color/holo_blue_bright">
+
+            <ImageView
+                android:id="@+id/home_sub4_img"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="100"
+                android:src="@drawable/ic_home_add"
+                android:background="@android:color/holo_purple"/>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

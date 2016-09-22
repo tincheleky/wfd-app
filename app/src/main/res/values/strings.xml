@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">What to eat</string>
+
+    <string name="banner_name">What for dinner?</string>
+
+    <string name="home_sub1">Meals</string>
+
+    <string name="home_sub2">Recipes</string>
+
+    <string name="home_sub3">Groceries</string>
+
+    <string name="home_sub4">+</string>
+</resources>
