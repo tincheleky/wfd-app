@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/about_us_layout"
+    android:layout_gravity="center"
+    android:background="@android:color/black"
+    android:padding="15dp">
+
+
+  <TextView
+      android:id="@+id/about1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="About Me\n"
+      android:textSize="40dp"
+      android:textColor="@android:color/white"/>
+
+  <TextView
+      android:id="@+id/build_number"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Version 1.0"
+      android:textSize="25dp"
+      android:textColor="@android:color/white"/>
+
+  <TextView
+      android:id="@+id/about2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Developed by Tin Che"
+      android:textSize="25dp"
+      android:textColor="@android:color/white"/>
+
+
+  <TextView
+      android:id="@+id/about3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="All rights reserved"
+      android:textSize="25dp"
+      android:textColor="@android:color/white"/>
+
+</LinearLayout>
