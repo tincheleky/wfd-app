@@ -133,7 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_weight="100"
                 android:src="@drawable/ic_home_add"
-                android:background="@android:color/holo_purple"/>
+                android:background="@android:color/holo_purple"
+                android:onClick="startNewDishActivity"/>
 
 
 

@@ -1,5 +1,6 @@
 package com.tin.whattoeat;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,12 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homeactivity);
 
 
+    }
+
+    public void startNewDishActivity(View v)
+    {
+        Intent intent = new Intent(this, NewDishActivity.class);
+        startActivity(intent);
     }
     public void displayAboutUs(View v)
     {
