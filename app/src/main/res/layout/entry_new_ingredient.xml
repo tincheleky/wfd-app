@@ -2,22 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_new_ingredient"
     android:orientation="horizontal"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="100">
 
-    <EditText
-        android:id="@+id/option1"
+    <TextView
+        android:id="@+id/ingredient_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="80"
-        android:hint="Enter Ingredient"
-        android:textSize="20dp"/>
+        android:layout_weight="60"
+        android:text="Ingredient "
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:gravity="left"/>
 
-    <ImageView
-        android:id="@+id/option2"
+    <TextView
+        android:id="@+id/ingredient_quantity"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="20"
-        android:src="@drawable/ic_add_black_24dp"/>
+        android:layout_weight="15"
+        android:text="###"
+        android:layout_gravity="center"
+        android:gravity="right"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/ingredient_unit"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="25"
+        android:paddingLeft="5dp"
+        android:text=" (units)"
+        android:textSize="18dp"
+        android:layout_gravity="center"/>
 </LinearLayout>
+

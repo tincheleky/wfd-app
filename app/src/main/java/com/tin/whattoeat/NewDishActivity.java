@@ -1,44 +1,54 @@
 package com.tin.whattoeat;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
-import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import com.tin.whattoeat.DataAdapter.NewEntryPagerAdapter;
 
 public class NewDishActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter dataAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_dish);
-
         Intent intent = getIntent();
 
-        recyclerView = (RecyclerView)findViewById(R.id.ingredients_add_list);
-        recyclerView.setHasFixedSize(true);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_new_entry);
+        setSupportActionBar(toolbar);
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        ArrayList<String> dumbData = new ArrayList<>();
-        int i = 10;
-        while(i > 0)
-        {
-            dumbData.add(new String("Item " + i));
-            i--;
-        }
-        dataAdapter = new IngredientDataAdapter(dumbData);
-        recyclerView.setAdapter(dataAdapter);
+        tabLayout = (TabLayout) findViewById(R.id.tablayout_new_entry);
+        viewPager = (ViewPager) findViewById(R.id.viewpager_new_entry);
 
+        tabLayout.addTab(tabLayout.newTab().setText("Detail"));
+        tabLayout.addTab(tabLayout.newTab().setText("Description"));
+        NewEntryPagerAdapter newEntryPagerAdapter = new NewEntryPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(newEntryPagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
+
 }

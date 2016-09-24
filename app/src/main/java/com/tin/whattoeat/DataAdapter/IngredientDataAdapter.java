@@ -28,13 +28,15 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
         dataIngredient = data;
     }
     class ViewHolder extends RecyclerView.ViewHolder{
-        public EditText ingredientEditText;
-        public ImageView ingredientImageView;
+        public TextView ingredientName;
+        public TextView ingredientQuantity;
+        public TextView ingredientUnit;
         ViewHolder(View v)
         {
             super(v);
-            ingredientEditText = (EditText) v.findViewById(R.id.option1);
-            ingredientImageView = (ImageView) v.findViewById(R.id.option2);
+            ingredientName = (TextView) v.findViewById(R.id.ingredient_name);
+            ingredientQuantity = (TextView) v.findViewById(R.id.ingredient_quantity);
+            ingredientUnit = (TextView) v.findViewById(R.id.ingredient_unit);
         }
     }
 
@@ -51,7 +53,7 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.ingredientEditText.setText(dataIngredient.get(position));
+        holder.ingredientName.setText(dataIngredient.get(position));
     }
 
 
