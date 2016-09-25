@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,9 +24,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
+import com.tin.whattoeat.Model.GlobalData;
+import com.tin.whattoeat.Model.Ingredient;
+import com.tin.whattoeat.Model.Recipe;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -46,7 +51,8 @@ public class FragmentEntryDetail extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter dataAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private String[] data;
+    private Recipe recipe;
+    private ArrayList<Ingredient> ingredientsList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -122,7 +128,6 @@ public class FragmentEntryDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        data = new String[3];
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
 
@@ -150,10 +155,15 @@ public class FragmentEntryDetail extends Fragment {
             //Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
         });
 
+        String[] data = new String[3];
         ImageView imageView = (ImageView)view.findViewById(R.id.btn_add_new_ingredient);
         imageView.setOnClickListener((View v)->{
-            NewIngredientPopupWindow ingredientPopupWindow = new NewIngredientPopupWindow(getContext(), (IngredientDataAdapter) dataAdapter, data);
-            ingredientPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            NewIngredientPopupWindow ingredientPopupWindow = new NewIngredientPopupWindow(getContext(),
+                    (IngredientDataAdapter) dataAdapter,
+                    data,
+                    GlobalData.ingredientsToString(),
+                    GlobalData.unitToString());
+            ingredientPopupWindow.show();
         });
 
 //        ImageView addImageView = (ImageView)view.findViewById(R.id.btn_add_new_ingredient);
@@ -163,6 +173,7 @@ public class FragmentEntryDetail extends Fragment {
 //                Toast.makeText(getContext(), "Testing getting data from popupwindows: " + data[0] + "," + data[1] + "," + data[2], Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
         return view;
     }
 

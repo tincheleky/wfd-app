@@ -15,11 +15,13 @@
         android:background="@android:color/white"
         >
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/new_ingredient_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter ingredient name"
+            android:maxLines="1"
+            android:ems="10"
             />
 
         <EditText
@@ -29,7 +31,7 @@
             android:layout_below="@+id/new_ingredient_name"
             android:hint="Enter quantity"/>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/new_ingredient_unit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,8 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="50sp"
             android:src="@drawable/ic_add_black_24dp"
-            android:layout_below="@id/new_ingredient_unit"
-            android:onClick="postBackResult"/>
+            android:layout_below="@id/new_ingredient_unit" />
     </RelativeLayout>
 
 
