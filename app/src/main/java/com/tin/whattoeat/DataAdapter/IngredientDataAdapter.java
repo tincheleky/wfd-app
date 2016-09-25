@@ -31,6 +31,7 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
         public TextView ingredientName;
         public TextView ingredientQuantity;
         public TextView ingredientUnit;
+
         ViewHolder(View v)
         {
             super(v);
@@ -56,9 +57,16 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
         holder.ingredientName.setText(dataIngredient.get(position));
     }
 
-
+    public void addItem(String s)
+    {
+        dataIngredient.add(0, new String(s));
+        notifyItemChanged(0);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return dataIngredient.size();
     }
+
+
 }

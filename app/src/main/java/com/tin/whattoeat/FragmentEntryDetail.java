@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class FragmentEntryDetail extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter dataAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private String[] data;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -120,6 +122,7 @@ public class FragmentEntryDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        data = new String[3];
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
 
@@ -129,7 +132,7 @@ public class FragmentEntryDetail extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<String> dumbData = new ArrayList<>();
-        int i = 50;
+        int i = 10;
         while(i > 0)
         {
             dumbData.add(new String("Item " + i));
@@ -144,8 +147,22 @@ public class FragmentEntryDetail extends Fragment {
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Pick a photo"), 1 );
-            Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
         });
+
+        ImageView imageView = (ImageView)view.findViewById(R.id.btn_add_new_ingredient);
+        imageView.setOnClickListener((View v)->{
+            NewIngredientPopupWindow ingredientPopupWindow = new NewIngredientPopupWindow(getContext(), (IngredientDataAdapter) dataAdapter, data);
+            ingredientPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        });
+
+//        ImageView addImageView = (ImageView)view.findViewById(R.id.btn_add_new_ingredient);
+//        addImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(), "Testing getting data from popupwindows: " + data[0] + "," + data[1] + "," + data[2], Toast.LENGTH_SHORT).show();
+//            }
+//        });
         return view;
     }
 

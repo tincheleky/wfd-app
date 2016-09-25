@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_new_ingredient"
     android:orientation="horizontal"
     android:paddingLeft="2dp"
     android:paddingRight="2dp"
