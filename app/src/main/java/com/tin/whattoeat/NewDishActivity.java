@@ -14,6 +14,7 @@ public class NewDishActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    public static String TARGET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,8 @@ public class NewDishActivity extends AppCompatActivity {
 
         tabLayout.addTab(tabLayout.newTab().setText("Detail"));
         tabLayout.addTab(tabLayout.newTab().setText("Description"));
-        NewEntryPagerAdapter newEntryPagerAdapter = new NewEntryPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        String target = intent.getStringExtra(TARGET);
+        NewEntryPagerAdapter newEntryPagerAdapter = new NewEntryPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), "EDIT_MODE", target);
         viewPager.setAdapter(newEntryPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

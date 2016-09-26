@@ -62,6 +62,7 @@
             android:weightSum="100"
             android:layout_weight="50"
             android:orientation="vertical"
+            android:onClick="startRecipeActivity"
             android:background="@android:color/holo_blue_bright">
 
             <ImageView

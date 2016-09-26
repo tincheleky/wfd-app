@@ -7,19 +7,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -28,9 +27,10 @@ import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
 import com.tin.whattoeat.Model.Recipe;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -48,6 +48,9 @@ public class FragmentEntryDetail extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    public static final String MODE = "";
+    public static final String RECIPE_TARGET = "";
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter dataAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -63,6 +66,7 @@ public class FragmentEntryDetail extends Fragment {
     public FragmentEntryDetail() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -114,7 +118,7 @@ public class FragmentEntryDetail extends Fragment {
                 Picasso.with(getActivity())
                         .load(uri)
                         .resize(imageView.getWidth(), imageView.getWidth())
-                        .centerInside()
+                        .centerCrop()
                         .into(imageView);
 
 
@@ -124,55 +128,77 @@ public class FragmentEntryDetail extends Fragment {
         }
     }
 
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
+                             Bundle savedInstanceState)
+    {
+        View view;
+        String targetData = getArguments().getString(NewDishActivity.TARGET);
+        if(targetData != null)
+            recipe = GlobalData.getRecipeFromList(targetData);
 
-        recyclerView = (RecyclerView)view.findViewById(R.id.ingredients_add_list);
-        recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        ArrayList<String> dumbData = new ArrayList<>();
-        int i = 10;
-        while(i > 0)
+        String mode = getArguments().getString(MODE);
+        if(mode.compareToIgnoreCase("EDIT_MODE") == 0)
         {
-            dumbData.add(new String("Item " + i));
-            i--;
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+            // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
+
+            EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
+            if(recipe != null)
+                recipeName.setText(recipe.getName());
+
+            recyclerView = (RecyclerView) view.findViewById(R.id.ingredients_add_list);
+            recyclerView.setHasFixedSize(true);
+
+            layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+
+            if(recipe != null)
+                dataAdapter = new IngredientDataAdapter(recipe.getIngredientsList());
+            else
+                dataAdapter = new IngredientDataAdapter();
+
+            recyclerView.setAdapter(dataAdapter);
+
+            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_picture);
+            fab.setOnClickListener((View v) -> {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Pick a photo"), 1);
+                //Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
+            });
+
+            String[] data = new String[3];
+            TextView imageView = (TextView) view.findViewById(R.id.btn_add_new_ingredient);
+            imageView.setOnClickListener((View v) -> {
+                NewIngredientDialog ingredientPopupWindow = new NewIngredientDialog(getContext(),
+                        (IngredientDataAdapter) dataAdapter,
+                        data,
+                        GlobalData.ingredientsToString(),
+                        GlobalData.unitToString());
+                ingredientPopupWindow.show();
+            });
         }
-        dataAdapter = new IngredientDataAdapter(dumbData);
-        recyclerView.setAdapter(dataAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_picture);
-        fab.setOnClickListener((View v)->{
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Pick a photo"), 1 );
-            //Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
-        });
+        else{
+            view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
-        String[] data = new String[3];
-        ImageView imageView = (ImageView)view.findViewById(R.id.btn_add_new_ingredient);
-        imageView.setOnClickListener((View v)->{
-            NewIngredientPopupWindow ingredientPopupWindow = new NewIngredientPopupWindow(getContext(),
-                    (IngredientDataAdapter) dataAdapter,
-                    data,
-                    GlobalData.ingredientsToString(),
-                    GlobalData.unitToString());
-            ingredientPopupWindow.show();
-        });
+            recyclerView = (RecyclerView) view.findViewById(R.id.recipe_detail_recycler_view);
+            recyclerView.setHasFixedSize(true);
 
-//        ImageView addImageView = (ImageView)view.findViewById(R.id.btn_add_new_ingredient);
-//        addImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getContext(), "Testing getting data from popupwindows: " + data[0] + "," + data[1] + "," + data[2], Toast.LENGTH_SHORT).show();
-//            }
-//        });
+            layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+
+            dataAdapter = new IngredientDataAdapter(recipe.getIngredientsList());
+
+            recyclerView.setAdapter(dataAdapter);
+//            TextView recipeName = (TextView) view.findViewById(R.id.recipe_detail_name);
+//            recipeName.setText(mode);
+            //Picasso here for imageview
+        }
 
         return view;
     }

@@ -11,10 +11,24 @@ public class GlobalData
 {
     private static ArrayList<String> ingNameList;
     private static ArrayList<String> unitList;
+    private static ArrayList<Recipe> recipeList;
 
     static {
         ingNameList = new ArrayList<>();
         unitList = new ArrayList<>();
+        recipeList = new ArrayList<>();
+
+        ArrayList<Ingredient> dumbIngreList = new ArrayList<>();
+        dumbIngreList.add(new Ingredient("Eggs", "piece", 10));
+        dumbIngreList.add(new Ingredient("Milk", "gallon", 2));
+
+        recipeList.add(new Recipe("Hamburger", null, "", dumbIngreList));
+
+        dumbIngreList = new ArrayList<>();
+        dumbIngreList.add(new Ingredient("EAT 2: Ingre 0", "piece", 2));
+        dumbIngreList.add(new Ingredient("EAT 2: Ingre 1", "gallon", 1));
+        recipeList.add(new Recipe("EAT 2", null, "", dumbIngreList));
+
     }
 
     public static String[] ingredientsToString()
@@ -65,6 +79,21 @@ public class GlobalData
             unitList.add(new String(s));
 
         return;
+    }
+
+    public static ArrayList<Recipe> getRecipeList() {
+        return recipeList;
+    }
+
+    public static Recipe getRecipeFromList(String target)
+    {
+        for(Recipe rec : recipeList)
+        {
+            if(rec.getName().compareToIgnoreCase(target) == 0)
+                return rec;
+        }
+
+        return null;
     }
 
 }

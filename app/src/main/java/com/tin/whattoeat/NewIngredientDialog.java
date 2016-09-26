@@ -12,14 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
+import com.tin.whattoeat.Model.Ingredient;
 
 /**
  * Created by mbp on 9/24/16.
  */
 
-public class NewIngredientPopupWindow extends Dialog
+public class NewIngredientDialog extends Dialog
 {
     private AutoCompleteTextView ingredientAutoCompleteTextView;
     private AutoCompleteTextView unitAutoCompleteTextView;
@@ -32,7 +34,7 @@ public class NewIngredientPopupWindow extends Dialog
 
     private Context context;
 
-    public NewIngredientPopupWindow(Context context, IngredientDataAdapter ida, String[] data, String[] ingNameData, String[] unitData) {
+    public NewIngredientDialog(Context context, IngredientDataAdapter ida, String[] data, String[] ingNameData, String[] unitData) {
         super(context);
         this.context = context;
         this.postbackData = data;
@@ -69,7 +71,14 @@ public class NewIngredientPopupWindow extends Dialog
             postbackData[0] = ingredientAutoCompleteTextView.getText().toString();
             postbackData[1] = quantityEditText.getText().toString();
             postbackData[2] = unitAutoCompleteTextView.getText().toString();
-            ida.addItem(data[0]);
+
+            if(postbackData[0].length() > 0 && postbackData[1].length() > 0 && postbackData[2].length() > 0)
+                ida.addItem(new Ingredient(postbackData[0], postbackData[2], Double.valueOf(postbackData[1])));
+            else
+            {
+                Toast.makeText(context, "Please don't leave any field blank . . .", Toast.LENGTH_SHORT);
+            }
+
             dismiss();
         });
 

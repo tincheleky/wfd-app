@@ -1,0 +1,37 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.tin.whattoeat.RecipeDetailActivity"
+    android:background="@android:color/holo_green_light">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/recipe_detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
+        <TextView
+            android:id="@+id/recipe_toolbar_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recipe Name"
+            android:gravity="fill_horizontal"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            />
+
+    </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/recipe_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+
+
+</LinearLayout>

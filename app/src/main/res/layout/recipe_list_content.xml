@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/recipe_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Name holder"
+        android:textSize="25sp"
+        android:layout_weight="25"
+        android:background="@android:color/holo_blue_bright"
+        android:gravity="center|left"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="75"
+        android:weightSum="100"
+        >
+        <ImageView
+            android:id="@+id/recipe_photo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="70"
+            android:layout_gravity="center"
+            android:background="@android:color/holo_green_light"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/recipe_nutrition"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:text="Nutrition info "
+            android:background="@android:color/darker_gray"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

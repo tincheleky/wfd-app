@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tin.whattoeat.Model.Ingredient;
 import com.tin.whattoeat.R;
 
 import org.w3c.dom.Text;
@@ -21,12 +22,18 @@ import java.util.ArrayList;
 
 public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAdapter.ViewHolder>
 {
-    ArrayList<String> dataIngredient = new ArrayList<>();
+    ArrayList<Ingredient> dataIngredient = new ArrayList<>();
 
-    public IngredientDataAdapter(ArrayList<String> data)
+    public IngredientDataAdapter()
+    {
+        dataIngredient = new ArrayList<>();
+    }
+
+    public IngredientDataAdapter(ArrayList<Ingredient> data)
     {
         dataIngredient = data;
     }
+
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView ingredientName;
         public TextView ingredientQuantity;
@@ -54,12 +61,14 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.ingredientName.setText(dataIngredient.get(position));
+        holder.ingredientName.setText(dataIngredient.get(position).getIngName());
+        holder.ingredientUnit.setText(dataIngredient.get(position).getUnit());
+        holder.ingredientQuantity.setText(String.valueOf(dataIngredient.get(position).getQuantity()));
     }
 
-    public void addItem(String s)
+    public void addItem(Ingredient ing)
     {
-        dataIngredient.add(0, new String(s));
+        dataIngredient.add(0, ing);
         notifyItemChanged(0);
         notifyDataSetChanged();
     }

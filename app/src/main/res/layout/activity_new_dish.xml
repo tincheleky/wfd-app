@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
         android:elevation="1dp"
-        android:minHeight="25dp"
+        android:minHeight="20dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:text="New Recipe"
             android:gravity="center"
-            android:textSize="25dp"/>
+            android:textSize="20dp"/>
         </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
@@ -33,7 +33,7 @@
         android:layout_below="@+id/toolbar_new_entry"
         app:tabGravity="fill"
         android:background="?attr/colorPrimary"
-        android:elevation="6dp"
+        android:elevation="1dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 

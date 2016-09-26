@@ -10,8 +10,6 @@
     android:fitsSystemWindows="true"
     android:weightSum="100">
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -38,11 +36,15 @@
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/new_dish_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="What are you making?"
+        android:textColorHighlight="@color/colorPrimary"
         android:textSize="20sp"
-        android:gravity="left"
+        android:gravity="center"
+        android:maxLines="1"
+        android:inputType="text"
         android:layout_gravity="center"
         android:layout_weight="10"/>
 
@@ -50,34 +52,41 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="43"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="100">
 
-        <ImageView
+        <TextView
             android:id="@+id/btn_add_new_ingredient"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
             android:layout_weight="20"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_add_black_24dp"/>
+            android:textSize="20sp"
+            android:text="Add new ingredient"
+            android:gravity="center"
+            android:layout_gravity="center" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ingredients_add_list"
             android:scrollbars="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
             android:layout_weight="80" />
 
     </LinearLayout>
 
 
 
-    <ImageView
+    <TextView
         android:id="@+id/popupNewIngredient"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7"
-        android:src="@drawable/ic_check_black_24dp"
+        android:textSize="20sp"
+        android:background="@color/colorPrimary"
+        android:text="Add new recipe"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@android:color/white"
         />
 
 
