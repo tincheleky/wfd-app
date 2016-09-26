@@ -82,6 +82,21 @@ public class NewIngredientDialog extends Dialog
             dismiss();
         });
 
+        if(postbackData[0] != null)
+        {
+            ingredientAutoCompleteTextView.setText(postbackData[0]);
+        }
+        if(postbackData[1] != null)
+        {
+            quantityEditText.setText(postbackData[1]);
+        }
+        if(postbackData[2] != null)
+        {
+            unitAutoCompleteTextView.setText(postbackData[2]);
+        }
+
+        setTitle("Ingredient");
+
         System.out.println("TESTING popupNewIngredient ");
 
     }

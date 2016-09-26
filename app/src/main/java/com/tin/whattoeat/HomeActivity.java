@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     public void displayAboutUs(View v)
     {
         Dialog aboutUsDialog = new Dialog(this);
+        aboutUsDialog.setTitle("About Me");
         aboutUsDialog.setContentView(R.layout.about_us);
         aboutUsDialog.show();
 
@@ -46,5 +47,11 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra(NewDishActivity.TARGET, "");
         startActivity(intent);
 
+    }
+
+    public void startGroceriesActivity(View v)
+    {
+        Intent intent = new Intent(this, GroceriesActivity.class);
+        startActivity(intent);
     }
 }

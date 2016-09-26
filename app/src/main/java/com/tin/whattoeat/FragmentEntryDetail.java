@@ -156,9 +156,9 @@ public class FragmentEntryDetail extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
 
             if(recipe != null)
-                dataAdapter = new IngredientDataAdapter(recipe.getIngredientsList());
+                dataAdapter = new IngredientDataAdapter(getActivity(), recipe.getIngredientsList(), true);
             else
-                dataAdapter = new IngredientDataAdapter();
+                dataAdapter = new IngredientDataAdapter(getActivity());
 
             recyclerView.setAdapter(dataAdapter);
 
@@ -181,6 +181,7 @@ public class FragmentEntryDetail extends Fragment {
                         GlobalData.unitToString());
                 ingredientPopupWindow.show();
             });
+
         }
 
         else{
@@ -192,7 +193,7 @@ public class FragmentEntryDetail extends Fragment {
             layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
 
-            dataAdapter = new IngredientDataAdapter(recipe.getIngredientsList());
+            dataAdapter = new IngredientDataAdapter(getActivity(), recipe.getIngredientsList(), false);
 
             recyclerView.setAdapter(dataAdapter);
 //            TextView recipeName = (TextView) view.findViewById(R.id.recipe_detail_name);

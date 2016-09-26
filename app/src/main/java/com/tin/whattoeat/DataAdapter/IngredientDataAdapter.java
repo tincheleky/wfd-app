@@ -1,5 +1,6 @@
 package com.tin.whattoeat.DataAdapter;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
+import com.tin.whattoeat.NewDishActivity;
+import com.tin.whattoeat.NewIngredientDialog;
 import com.tin.whattoeat.R;
 
 import org.w3c.dom.Text;
@@ -23,15 +27,22 @@ import java.util.ArrayList;
 public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAdapter.ViewHolder>
 {
     ArrayList<Ingredient> dataIngredient = new ArrayList<>();
+    private boolean editable = true;
+    IngredientDataAdapter ida;
+    Activity activity;
 
-    public IngredientDataAdapter()
+    public IngredientDataAdapter(Activity activity)
     {
-        dataIngredient = new ArrayList<>();
+        ida = this; dataIngredient = new ArrayList<>();
+        this.activity = activity;
     }
 
-    public IngredientDataAdapter(ArrayList<Ingredient> data)
+    public IngredientDataAdapter(Activity activity, ArrayList<Ingredient> data, boolean editable)
     {
         dataIngredient = data;
+        ida = this;
+        this.activity = activity;
+        this.editable = editable;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -39,12 +50,31 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
         public TextView ingredientQuantity;
         public TextView ingredientUnit;
 
+        public Ingredient mItem;
+
         ViewHolder(View v)
         {
             super(v);
+
             ingredientName = (TextView) v.findViewById(R.id.ingredient_name);
             ingredientQuantity = (TextView) v.findViewById(R.id.ingredient_quantity);
             ingredientUnit = (TextView) v.findViewById(R.id.ingredient_unit);
+            if(editable) {
+                v.setOnClickListener((View view) -> {
+                    System.out.println("Click on me, Testing ingredient item onClick");
+                    String data[] = new String[3];
+                    data[0] = ingredientName.getText().toString();
+                    data[1] = ingredientQuantity.getText().toString();
+                    data[2] = ingredientUnit.getText().toString();
+                    NewIngredientDialog ingredientPopupWindow = new NewIngredientDialog(activity,
+                            ida,
+                            data,
+                            GlobalData.ingredientsToString(),
+                            GlobalData.unitToString());
+                    ingredientPopupWindow.show();
+                    System.out.println();
+                });
+            }
         }
     }
 
