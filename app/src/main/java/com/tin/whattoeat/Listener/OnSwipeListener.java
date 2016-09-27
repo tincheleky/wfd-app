@@ -7,6 +7,7 @@ import android.view.View;
 
 /**
  * Created by mbp on 9/26/16.
+ * This code is modified from stackoverflow.com
  */
 
 public class OnSwipeListener implements View.OnTouchListener {
@@ -18,7 +19,7 @@ public class OnSwipeListener implements View.OnTouchListener {
         gestureDetector = new GestureDetector(context, new GestureDetector.OnGestureListener() {
 
             private static final int SWIPE_THRESHOLD = 100;
-            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 50;
 
             @Override
             public boolean onDown(MotionEvent e) {

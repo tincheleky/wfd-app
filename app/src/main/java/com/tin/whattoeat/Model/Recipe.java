@@ -1,6 +1,6 @@
 package com.tin.whattoeat.Model;
 
-import java.net.URI;
+import android.net.Uri;
 import java.util.ArrayList;
 
 /**
@@ -10,15 +10,17 @@ import java.util.ArrayList;
 public class Recipe
 {
     private String name;
-    private URI imgURI;
+    private Uri imgURI;
     private String imgURL;
     private ArrayList<Ingredient> ingredientsList;
+    private String Description;
 
-    public Recipe(String name, URI imgURI, String imgURL, ArrayList<Ingredient> ingredientsList) {
+    public Recipe(String name, Uri imgURI, String imgURL, ArrayList<Ingredient> ingredientsList, String description) {
         this.name = name;
         this.imgURI = imgURI;
         this.imgURL = imgURL;
         this.ingredientsList = ingredientsList;
+        Description = description;
     }
 
     public Recipe() {
@@ -26,6 +28,14 @@ public class Recipe
         imgURI = null;
         imgURL = "";
         ingredientsList = new ArrayList<>();
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 
     public String getName() {
@@ -36,11 +46,11 @@ public class Recipe
         this.name = name;
     }
 
-    public URI getImgURI() {
+    public Uri getImgURI() {
         return imgURI;
     }
 
-    public void setImgURI(URI imgURI) {
+    public void setImgURI(Uri imgURI) {
         this.imgURI = imgURI;
     }
 

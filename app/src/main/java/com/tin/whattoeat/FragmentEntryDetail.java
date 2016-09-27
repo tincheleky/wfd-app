@@ -2,6 +2,7 @@ package com.tin.whattoeat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,7 +32,10 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 
 
 /**
@@ -56,6 +60,7 @@ public class FragmentEntryDetail extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private Recipe recipe;
     private ArrayList<Ingredient> ingredientsList;
+    private Uri uri;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -101,30 +106,18 @@ public class FragmentEntryDetail extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++ I CATCHED YOU ");
         Toast.makeText(getActivity(), "Get it?  " + requestCode + " - " + resultCode, Toast.LENGTH_SHORT).show();
 
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-
-            Uri uri = data.getData();
-            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                InputStream image_stream = getActivity().getContentResolver().openInputStream(uri);
-                Bitmap bitmap= BitmapFactory.decodeStream(image_stream );
-                // Log.d(TAG, String.valueOf(bitmap));
-
-                ImageView imageView = (ImageView) getActivity().findViewById(R.id.image_entry);
-                imageView.setImageBitmap(bitmap);
-
-                Picasso.with(getActivity())
-                        .load(uri)
-                        .resize(imageView.getWidth(), imageView.getWidth())
-                        .centerCrop()
-                        .into(imageView);
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.getData() != null)
+        {
+            uri = data.getData();
+            ImageView imageView = (ImageView) getActivity().findViewById(R.id.new_dish_photo);
+            Picasso.with(getActivity())
+                    .load(uri)
+                    .resize(imageView.getWidth(), imageView.getWidth())
+                    .centerCrop()
+                    .into(imageView);
         }
     }
 
@@ -134,6 +127,7 @@ public class FragmentEntryDetail extends Fragment {
                              Bundle savedInstanceState)
     {
         View view;
+        ingredientsList = new ArrayList<>();
         String targetData = getArguments().getString(NewDishActivity.TARGET);
         if(targetData != null)
             recipe = GlobalData.getRecipeFromList(targetData);
@@ -145,10 +139,14 @@ public class FragmentEntryDetail extends Fragment {
             // Inflate the layout for this fragment
             view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
 
+            ImageView imageView = (ImageView) view.findViewById(R.id.new_dish_photo);
             EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
-            if(recipe != null)
-                recipeName.setText(recipe.getName());
+            EditText description = (EditText) view.findViewById(R.id.new_dish_description);
 
+            if(recipe != null) {
+                recipeName.setText(recipe.getName());
+                ingredientsList = recipe.getIngredientsList();
+            }
             recyclerView = (RecyclerView) view.findViewById(R.id.ingredients_add_list);
             recyclerView.setHasFixedSize(true);
 
@@ -162,24 +160,70 @@ public class FragmentEntryDetail extends Fragment {
 
             recyclerView.setAdapter(dataAdapter);
 
-            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_picture);
+            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_picture_from_gallery);
             fab.setOnClickListener((View v) -> {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Pick a photo"), 1);
-                //Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Hey, click me yeah ?", Toast.LENGTH_SHORT).show();
+            });
+
+            String url[] = new String[1];
+            FloatingActionButton fab2 = (FloatingActionButton) view.findViewById(R.id.fab_add_picture_from_link);
+            fab2.setOnClickListener((View v) -> {
+                AddPhotoDialog dialog = new AddPhotoDialog(getContext(), url, imageView);
+                dialog.show();
             });
 
             String[] data = new String[3];
-            TextView imageView = (TextView) view.findViewById(R.id.btn_add_new_ingredient);
-            imageView.setOnClickListener((View v) -> {
+
+            TextView addNewIngredient = (TextView) view.findViewById(R.id.btn_add_new_ingredient);
+            addNewIngredient.setOnClickListener((View v) -> {
                 NewIngredientDialog ingredientPopupWindow = new NewIngredientDialog(getContext(),
                         (IngredientDataAdapter) dataAdapter,
                         data,
                         GlobalData.ingredientsToString(),
                         GlobalData.unitToString());
+                ingredientPopupWindow.setOnDismissListener((dialog)->{
+                    if(data[0] != null && data[1] != null && data[2] != null)
+                        ingredientsList.add(new Ingredient(data[0], data[2], Double.valueOf(data[1])));
+
+                });
                 ingredientPopupWindow.show();
+            });
+
+            TextView addNewDish = (TextView) view.findViewById(R.id.new_dish_add);
+            addNewDish.setOnClickListener(v->{
+                Picasso.with(getActivity())
+                        .load("http://previews.123rf.com/images/blankstock/blankstock1501/blankstock150100865/35309809-Cappello-Chef-sign-icon-Simbolo-di-cottura-Cappello-Cuochi-con-piatto-caldo-Bottone-piatto-grigio-co-Archivio-Fotografico.jpg")
+                        .resize(imageView.getWidth(), imageView.getWidth())
+                        .centerCrop()
+                        .into(imageView);
+            });
+
+            TextView applyBtn = (TextView) view.findViewById(R.id.new_dish_add);
+            applyBtn.setOnClickListener(v->{
+                if(recipeName.getText().toString().length() == 0)
+                    ;
+                else {
+                    Recipe tempRecipe = GlobalData.getRecipeFromList(recipeName.getText().toString());
+                    if(tempRecipe == null && recipe == null) {
+
+                        tempRecipe = new Recipe(recipeName.getText().toString(), uri, url[0], ingredientsList, GlobalData.DESCRIPTION);
+                        GlobalData.getRecipeList().add(tempRecipe);
+                    }
+                    else if(recipe != null)
+                    {
+                        recipe.setName(recipeName.getText().toString());
+                        recipe.setImgURI(uri);
+                        recipe.setImgURL(url[0]);
+                        recipe.setDescription(GlobalData.DESCRIPTION);
+                        recipe.setIngredientsList(ingredientsList);
+                    }
+
+                    getActivity().finish();
+                }
             });
 
         }

@@ -1,5 +1,7 @@
 package com.tin.whattoeat.Model;
 
+import android.content.Intent;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -12,22 +14,30 @@ public class GlobalData
     private static ArrayList<String> ingNameList;
     private static ArrayList<String> unitList;
     private static ArrayList<Recipe> recipeList;
-
+    private static GroceriesManager groceriesManager;
+    public static String DESCRIPTION = "";
+    public static String DEFAULT_PHOTO_URL = "http://previews.123rf.com/images/blankstock/blankstock1501/blankstock150100865/35309809-Cappello-Chef-sign-icon-Simbolo-di-cottura-Cappello-Cuochi-con-piatto-caldo-Bottone-piatto-grigio-co-Archivio-Fotografico.jpg";
     static {
         ingNameList = new ArrayList<>();
         unitList = new ArrayList<>();
         recipeList = new ArrayList<>();
+        groceriesManager = new GroceriesManager();
 
         ArrayList<Ingredient> dumbIngreList = new ArrayList<>();
         dumbIngreList.add(new Ingredient("Eggs", "piece", 10));
         dumbIngreList.add(new Ingredient("Milk", "gallon", 2));
 
-        recipeList.add(new Recipe("Hamburger", null, "", dumbIngreList));
+        recipeList.add(new Recipe("Hamburger", null, "", dumbIngreList, "DESCRIPTION GOES HERE"));
 
         dumbIngreList = new ArrayList<>();
         dumbIngreList.add(new Ingredient("EAT 2: Ingre 0", "piece", 2));
         dumbIngreList.add(new Ingredient("EAT 2: Ingre 1", "gallon", 1));
-        recipeList.add(new Recipe("EAT 2", null, "", dumbIngreList));
+        dumbIngreList.add(new Ingredient("Eggs", "piece", 10));
+        recipeList.add(new Recipe("EAT 2", null, "", dumbIngreList, "DESCRIPTION GOES HERE"));
+
+        groceriesManager.addSelectedRecipe(recipeList.get(0));
+        groceriesManager.addSelectedRecipe(recipeList.get(1));
+
 
     }
 
@@ -96,4 +106,9 @@ public class GlobalData
         return null;
     }
 
+
+    public static GroceriesManager getSelectedRecipes()
+    {
+        return groceriesManager;
+    }
 }

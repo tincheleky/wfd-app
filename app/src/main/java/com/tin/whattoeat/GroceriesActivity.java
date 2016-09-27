@@ -3,6 +3,7 @@ package com.tin.whattoeat;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 
 import com.tin.whattoeat.Listener.OnSwipeListener;
 import com.tin.whattoeat.Model.GlobalData;
+import com.tin.whattoeat.Model.GroceriesManager;
+import com.tin.whattoeat.Model.GroceryItem;
 import com.tin.whattoeat.Model.Recipe;
 
 import org.w3c.dom.Text;
@@ -66,17 +70,17 @@ public class GroceriesActivity extends AppCompatActivity
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 
-        recyclerView.setAdapter(new GroceriesRecyclerAdapter(GlobalData.getRecipeList()));
+        recyclerView.setAdapter(new GroceriesRecyclerAdapter(GlobalData.getSelectedRecipes()));
     }
 
     public class GroceriesRecyclerAdapter
             extends RecyclerView.Adapter<GroceriesRecyclerAdapter.ViewHolder> {
 
-        private final ArrayList<Recipe> mValues;
+        private final GroceriesManager groceriesManager;
 
-        public GroceriesRecyclerAdapter(ArrayList<Recipe>  items) {
-            mValues = items;
-            System.out.println("------------ TESTING +++ ::: " + items.size() );
+        public GroceriesRecyclerAdapter(GroceriesManager groceriesManager) {
+            this.groceriesManager = groceriesManager;
+            System.out.println("------------ TESTING +++ ::: " + groceriesManager.getItemsCount() );
         }
 
         @Override
@@ -88,23 +92,25 @@ public class GroceriesActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            //holder.mGroceriesItemName.setText("");
-            holder.mGroceriesItemQuantity.setText("###");
+            holder.mItem = groceriesManager.at(position);
+            holder.mGroceriesItemName.setText(holder.mItem.getIngredient().getIngName());
+            holder.mGroceriesItemQuantity.setText(String.valueOf(holder.mItem.getQuantity()));
             holder.mGroceriesItemAdd.setVisibility(ImageView.INVISIBLE);
+            holder.mGroceriesItemAdd.setEnabled(false);
             holder.mGroceriesItemRemove.setVisibility(ImageView.INVISIBLE);
+            holder.mGroceriesItemRemove.setEnabled(false);
 
             //Picasso here
 
             holder.mView.setOnClickListener(v -> {
                 //WHAT HAPPENS IF CLICKED
             });
-            System.out.println("+++++++ TESTING: " + mValues.size());
+            System.out.println("+++++++ TESTING: " + groceriesManager.getItemsCount());
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return groceriesManager.getItemsCount();
         }
 
 
@@ -117,7 +123,7 @@ public class GroceriesActivity extends AppCompatActivity
             public final ImageView mGroceriesItemRemove;
 
 
-            public Recipe mItem;
+            public GroceryItem mItem;
 
             public ViewHolder(View view) {
                 super(view);
@@ -126,11 +132,19 @@ public class GroceriesActivity extends AppCompatActivity
                     @Override
                     public void onSwipeRight(){
                         System.out.println("TESTING SWIPE RIGHT");
+                        mGroceriesItemAdd.setVisibility(ImageView.INVISIBLE);
+                        mGroceriesItemAdd.setEnabled(false);
+                        mGroceriesItemRemove.setVisibility(ImageView.INVISIBLE);
+                        mGroceriesItemRemove.setEnabled(false);
                     }
 
                     @Override
                     public void onSwipeLeft(){
                         System.out.println("TESTING SWIPE LEFT");
+                        mGroceriesItemAdd.setVisibility(ImageView.VISIBLE);
+                        mGroceriesItemAdd.setEnabled(true);
+                        mGroceriesItemRemove.setVisibility(ImageView.VISIBLE);
+                        mGroceriesItemRemove.setEnabled(true);
 
                     }
                 });
@@ -138,6 +152,25 @@ public class GroceriesActivity extends AppCompatActivity
                 mGroceriesItemQuantity = (TextView) view.findViewById(R.id.groceries_item_quantity);
                 mGroceriesItemAdd = (ImageView) view.findViewById(R.id.groceries_item_add);
                 mGroceriesItemRemove = (ImageView) view.findViewById(R.id.groceries_item_remove);
+
+                mGroceriesItemAdd.setOnClickListener(v->{
+                    mItem.increaseQuantity();
+                    mGroceriesItemQuantity.setText(String.valueOf(mItem.getQuantity()));
+                    if(mItem.getQuantity() > 0)
+                    {
+                        mGroceriesItemName.setPaintFlags(0);
+                    }
+                });
+
+                mGroceriesItemRemove.setOnClickListener(v->{
+                    mItem.decreaseQuantity();
+                    mGroceriesItemQuantity.setText(String.valueOf(mItem.getQuantity()));
+                    if(mItem.getQuantity() == 0)
+                    {
+                        mGroceriesItemName.setPaintFlags(mGroceriesItemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
+                });
+
             }
 
             @Override
@@ -146,6 +179,22 @@ public class GroceriesActivity extends AppCompatActivity
             }
 
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button. In the case of this
+            // activity, the Up button is shown. For
+            // more details, see the Navigation pattern on Android Design:
+            //
+            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+            //
+            navigateUpTo(new Intent(this, HomeActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

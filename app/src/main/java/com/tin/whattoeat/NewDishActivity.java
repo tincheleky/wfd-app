@@ -1,13 +1,23 @@
 package com.tin.whattoeat;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tin.whattoeat.DataAdapter.NewEntryPagerAdapter;
+
+import org.w3c.dom.Text;
+
+import java.net.URL;
 
 public class NewDishActivity extends AppCompatActivity {
 
@@ -24,6 +34,12 @@ public class NewDishActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_new_entry);
         setSupportActionBar(toolbar);
+
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout_new_entry);
         viewPager = (ViewPager) findViewById(R.id.viewpager_new_entry);
@@ -51,6 +67,23 @@ public class NewDishActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button. In the case of this
+            // activity, the Up button is shown. For
+            // more details, see the Navigation pattern on Android Design:
+            //
+            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+            //
+            navigateUpTo(new Intent(this, HomeActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

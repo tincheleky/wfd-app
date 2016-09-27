@@ -39,7 +39,7 @@ public class NewEntryPagerAdapter extends FragmentStatePagerAdapter
             case 1:
                 fragment = new FragmentEntryDescription();
                 bundle.putString(FragmentEntryDescription.MODE, mode);
-                bundle.putString(NewDishActivity.TARGET, target);
+                bundle.putString(FragmentEntryDescription.TARGET, target);
                 fragment.setArguments(bundle);
                 return fragment;
             default:

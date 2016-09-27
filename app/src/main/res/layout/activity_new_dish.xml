@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".NewDishActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_new_entry"
@@ -14,7 +14,6 @@
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
         android:elevation="1dp"
-        android:minHeight="20dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -22,8 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="New Recipe"
-            android:gravity="center"
-            android:textSize="20dp"/>
+            android:gravity="left"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
         </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout

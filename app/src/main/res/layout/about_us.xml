@@ -8,15 +8,6 @@
     android:background="@android:color/black"
     android:padding="15dp">
 
-
-  <!--<TextView-->
-      <!--android:id="@+id/about1"-->
-      <!--android:layout_width="wrap_content"-->
-      <!--android:layout_height="wrap_content"-->
-      <!--android:text="About Me\n"-->
-      <!--android:textSize="40dp"-->
-      <!--android:textColor="@android:color/white"/>-->
-
   <TextView
       android:id="@+id/build_number"
       android:layout_width="wrap_content"
@@ -41,5 +32,6 @@
       android:text="All rights reserved"
       android:textSize="25dp"
       android:textColor="@android:color/white"/>
+
 
 </LinearLayout>

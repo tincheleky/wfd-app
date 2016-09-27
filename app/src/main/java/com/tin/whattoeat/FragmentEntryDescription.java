@@ -7,7 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tin.whattoeat.Model.GlobalData;
+import com.tin.whattoeat.Model.Recipe;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -25,10 +33,13 @@ public class FragmentEntryDescription extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     public static final String MODE = "";
+    public static final String TARGET = "RECIPE_NAME";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private EditText description;
     private OnFragmentInteractionListener mListener;
 
     public FragmentEntryDescription() {
@@ -66,7 +77,31 @@ public class FragmentEntryDescription extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_entry_description, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragment_entry_description, container, false);
+        Recipe recipe = null;
+        if(getArguments().getString(TARGET) != null)
+            recipe = GlobalData.getRecipeFromList(getArguments().getString(TARGET));
+
+        description = (EditText)view.findViewById(R.id.new_dish_description);
+        ((TextView) view.findViewById(R.id.save_description)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalData.DESCRIPTION = description.getText().toString();
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+            }
+        });
+        if(recipe != null)
+            description.setText(recipe.getDescription());
+        if(getArguments().getString(MODE).compareToIgnoreCase("EDIT_MODE") != 0)
+            description.setFocusable(false);
+        else
+            description.setFocusable(true);
+
+
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -82,7 +117,7 @@ public class FragmentEntryDescription extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Description Fragment", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Description Fragment", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -90,7 +125,13 @@ public class FragmentEntryDescription extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         mListener = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     /**
