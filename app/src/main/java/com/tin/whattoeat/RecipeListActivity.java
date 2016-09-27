@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Recipe;
@@ -96,8 +97,6 @@ public class RecipeListActivity extends AppCompatActivity {
             holder.mRecipeName.setText(mValues.get(position).getName());
             holder.mRecipeNutrition.setText("Nutrition\nInfo");
 
-            //Picasso here
-
             holder.mView.setOnClickListener(v -> {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
@@ -108,11 +107,7 @@ public class RecipeListActivity extends AppCompatActivity {
                             .replace(R.id.recipe_detail_container, fragment)
                             .commit();
                 } else {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, RecipeDetailActivity.class);
-                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, holder.mItem.getName());
-
-                    context.startActivity(intent);
+                    GlobalData.selectedRecipeManager.addSelectedRecipe(holder.mItem);
                 }
             });
         }
@@ -144,9 +139,12 @@ public class RecipeListActivity extends AppCompatActivity {
                         System.out.println("LONG PRESSED ON ITEM CONSUMED: " + mItem.getName());
                         return true;                    }
                 });
+
                 mRecipeName = (TextView) view.findViewById(R.id.recipe_name);
                 mRecipeNutrition = (TextView) view.findViewById(R.id.recipe_nutrition);
                 mRecipePhoto = (ImageView) view.findViewById(R.id.recipe_photo);
+
+
             }
 
             @Override

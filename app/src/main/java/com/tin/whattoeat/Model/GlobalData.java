@@ -14,14 +14,19 @@ public class GlobalData
     private static ArrayList<String> ingNameList;
     private static ArrayList<String> unitList;
     private static ArrayList<Recipe> recipeList;
-    private static GroceriesManager groceriesManager;
+    public static ArrayList<MealItem> mealList;
+    public static GroceriesManager groceriesManager;
+    public static SelectedRecipeManager selectedRecipeManager;
+
     public static String DESCRIPTION = "";
     public static String DEFAULT_PHOTO_URL = "http://previews.123rf.com/images/blankstock/blankstock1501/blankstock150100865/35309809-Cappello-Chef-sign-icon-Simbolo-di-cottura-Cappello-Cuochi-con-piatto-caldo-Bottone-piatto-grigio-co-Archivio-Fotografico.jpg";
     static {
         ingNameList = new ArrayList<>();
         unitList = new ArrayList<>();
         recipeList = new ArrayList<>();
+        mealList = new ArrayList<>();
         groceriesManager = new GroceriesManager();
+        selectedRecipeManager = new SelectedRecipeManager();
 
         ArrayList<Ingredient> dumbIngreList = new ArrayList<>();
         dumbIngreList.add(new Ingredient("Eggs", "piece", 10));
@@ -58,8 +63,11 @@ public class GlobalData
         {
             temp[i] = unitList.get(i);
         }
+
         return temp;
     }
+
+
 
     public static void addIngredient(String s)
     {

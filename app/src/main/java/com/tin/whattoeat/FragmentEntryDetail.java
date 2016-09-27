@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
 import com.tin.whattoeat.Model.GlobalData;
@@ -133,19 +134,20 @@ public class FragmentEntryDetail extends Fragment {
             recipe = GlobalData.getRecipeFromList(targetData);
 
         String mode = getArguments().getString(MODE);
+        view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
+        ImageView imageView = (ImageView) view.findViewById(R.id.new_dish_photo);
+        EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
+        EditText description = (EditText) view.findViewById(R.id.new_dish_description);
+
         if(mode.compareToIgnoreCase("EDIT_MODE") == 0)
         {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
             // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
-
-            ImageView imageView = (ImageView) view.findViewById(R.id.new_dish_photo);
-            EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
-            EditText description = (EditText) view.findViewById(R.id.new_dish_description);
 
             if(recipe != null) {
                 recipeName.setText(recipe.getName());
                 ingredientsList = recipe.getIngredientsList();
+
             }
             recyclerView = (RecyclerView) view.findViewById(R.id.ingredients_add_list);
             recyclerView.setHasFixedSize(true);
@@ -231,6 +233,75 @@ public class FragmentEntryDetail extends Fragment {
         else{
             view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
+            ImageView imageView1 = (ImageView) view.findViewById(R.id.new_dish_photo);
+            if(recipe.getImgURI() != null) {
+                Picasso.with(getActivity())
+                        .load(recipe.getImgURI())
+                        .resize(1600, 900)
+                        .centerCrop()
+                        .into(imageView1, new Callback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+                                Picasso.with(getActivity())
+                                        .load(recipe.getImgURL())
+                                        .resize(imageView1.getWidth(), imageView1.getWidth())
+                                        .centerCrop()
+                                        .into(imageView1, new Callback() {
+                                            @Override
+                                            public void onSuccess() {
+
+                                            }
+
+                                            @Override
+                                            public void onError() {
+
+                                                Picasso.with(getActivity())
+                                                        .load(GlobalData.DEFAULT_PHOTO_URL)
+                                                        .resize(imageView1.getWidth(), imageView1.getWidth())
+                                                        .centerCrop()
+                                                        .into(imageView1);
+                                            }
+                                        });
+                            }
+                        });
+            }
+            else{
+                if(recipe.getImgURL() != null && recipe.getImgURL().length() > 5) {
+                    Picasso.with(getActivity())
+                            .load(recipe.getImgURL())
+                            .resize(imageView1.getWidth(), imageView1.getWidth())
+                            .centerCrop()
+                            .into(imageView1, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                    Picasso.with(getActivity())
+                                            .load(GlobalData.DEFAULT_PHOTO_URL)
+                                            .resize(imageView1.getWidth(), imageView1.getWidth())
+                                            .centerCrop()
+                                            .into(imageView1);
+                                }
+                            });
+                }
+                else
+                {
+                    Picasso.with(getActivity())
+                            .load(GlobalData.DEFAULT_PHOTO_URL)
+                            .resize(1600, 900)
+                            .centerCrop()
+                            .into(imageView1);
+                }
+            }
             recyclerView = (RecyclerView) view.findViewById(R.id.recipe_detail_recycler_view);
             recyclerView.setHasFixedSize(true);
 

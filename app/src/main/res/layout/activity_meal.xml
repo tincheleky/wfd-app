@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+android:orientation="vertical"
+tools:context="com.tin.whattoeat.RecipeListActivity">
+
+
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/meal_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:theme="@style/WhiteToolbarStyle"
+    >
+    <TextView
+        android:id="@+id/meal_total_meals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Meals"
+        android:gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"
+        />
+</android.support.v7.widget.Toolbar>
+<FrameLayout
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include layout="@layout/meal_list" />
+
+</FrameLayout>
+
+
+
+</LinearLayout>

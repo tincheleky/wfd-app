@@ -2,6 +2,7 @@ package com.tin.whattoeat;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
+import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
 
 /**
@@ -47,15 +49,17 @@ public class NewIngredientDialog extends Dialog
         quantityEditText = (EditText) findViewById(R.id.new_ingredient_quantity);
 
         //FAKEING DATA;
-        ingNameData = new String[]{
-                "Eggs",
-                "Milk"
-        };
-
-        unitData = new String[]{
-                "lbs",
-                "gallon"
-        };
+//        ingNameData = new String[]{
+//                "Eggs",
+//                "Milk"
+//        };
+//
+//        unitData = new String[]{
+//                "lbs",
+//                "gallon"
+//        };
+        ingNameData = GlobalData.ingredientsToString();
+        unitData = GlobalData.unitToString();
 
         ingAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, ingNameData);
         unitAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, unitData);
@@ -71,6 +75,9 @@ public class NewIngredientDialog extends Dialog
             postbackData[0] = ingredientAutoCompleteTextView.getText().toString();
             postbackData[1] = quantityEditText.getText().toString();
             postbackData[2] = unitAutoCompleteTextView.getText().toString();
+
+            GlobalData.addIngredient(postbackData[0]);
+            GlobalData.addUnit(postbackData[2]);
 
             if(postbackData[0].length() > 0 && postbackData[1].length() > 0 && postbackData[2].length() > 0)
                 ida.addItem(new Ingredient(postbackData[0], postbackData[2], Double.valueOf(postbackData[1])));
