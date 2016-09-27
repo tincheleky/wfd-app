@@ -5,19 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
-import com.tin.whattoeat.NewDishActivity;
-import com.tin.whattoeat.NewIngredientDialog;
+import com.tin.whattoeat.Dialogs.NewIngredientDialog;
 import com.tin.whattoeat.R;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

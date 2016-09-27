@@ -18,6 +18,9 @@ public class GlobalData
     public static GroceriesManager groceriesManager;
     public static SelectedRecipeManager selectedRecipeManager;
 
+    public static int DEFAULT_PHOTO_WIDTH = 1600;
+    public static int DEFAULT_PHOTO_HEIGHT = 1200;
+
     public static String DESCRIPTION = "";
     public static String DEFAULT_PHOTO_URL = "http://previews.123rf.com/images/blankstock/blankstock1501/blankstock150100865/35309809-Cappello-Chef-sign-icon-Simbolo-di-cottura-Cappello-Cuochi-con-piatto-caldo-Bottone-piatto-grigio-co-Archivio-Fotografico.jpg";
     static {

@@ -1,5 +1,6 @@
 package com.tin.whattoeat.DataAdapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.tin.whattoeat.Model.DailyMeals;
+import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.MealItem;
 import com.tin.whattoeat.R;
 
@@ -18,13 +21,22 @@ import java.util.ArrayList;
 
 public class MealItemAdapter extends ArrayAdapter<MealItem>
 {
-    public MealItemAdapter(Context context, ArrayList<MealItem> meals) {
-        super(context, 0, meals);
+    private TextView postbackTextView;
+    private Dialog dialog;
+    private DailyMeals dailyMeals;
+    private int mealType;
+    public MealItemAdapter(Context context, int resID, TextView postbackTextView, DailyMeals item, Dialog dialog, int mealType) {
+        super(context, resID, GlobalData.selectedRecipeManager.selectedMeals);
+        this.postbackTextView = postbackTextView;
+        this.dialog = dialog;
+        this.dailyMeals = item;
+        this.mealType = mealType;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         MealItem item = getItem(position);
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_list_item_content, parent, false);
         }
@@ -33,8 +45,32 @@ public class MealItemAdapter extends ArrayAdapter<MealItem>
         TextView quan = (TextView) convertView.findViewById(R.id.list_item_content_quantity);
 
         name.setText(item.getRecipe().getName());
-        quan.setText(item.getQuantity());
+        quan.setText(String.valueOf(item.getQuantity()));
 
+        convertView.setOnClickListener(v->{
+            if(postbackTextView != null) {
+                postbackTextView.setText(name.getText().toString());
+                if(mealType == 1)
+                    dailyMeals.breakfastRecipe = GlobalData.selectedRecipeManager.at(position).getRecipe();
+                if(mealType == 2)
+                    dailyMeals.lunchRecipe = GlobalData.selectedRecipeManager.at(position).getRecipe();
+                if(mealType == 3)
+                    dailyMeals.dinnerRecipe = GlobalData.selectedRecipeManager.at(position).getRecipe();
+
+                GlobalData.selectedRecipeManager.at(position).decreaseQuantity();
+                if(GlobalData.selectedRecipeManager.at(position).getQuantity() == 0)
+                {
+                    GlobalData.selectedRecipeManager.selectedMeals.remove(GlobalData.selectedRecipeManager.at(position));
+                }
+            }
+            if(dialog != null)
+                dialog.dismiss();
+        });
         return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return super.getCount();
     }
 }

@@ -25,7 +25,7 @@
             android:id="@+id/recipe_photo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="70"
+            android:layout_weight="50"
             android:layout_gravity="center"
             android:background="@android:color/holo_green_light"
             android:textAppearance="?attr/textAppearanceListItem" />
@@ -34,7 +34,7 @@
             android:id="@+id/recipe_nutrition"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="30"
+            android:layout_weight="50"
             android:text="Nutrition info "
             android:background="@android:color/darker_gray"
             android:textSize="20sp"

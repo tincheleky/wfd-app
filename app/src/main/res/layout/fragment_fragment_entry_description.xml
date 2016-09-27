@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:weightSum="100"
     android:orientation="vertical"
-    tools:context="com.tin.whattoeat.FragmentEntryDescription">
+    tools:context="com.tin.whattoeat.Fragments.FragmentEntryDescription">
 
     <ScrollView
         android:layout_weight="90"

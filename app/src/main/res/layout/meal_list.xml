@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
     android:background="@android:color/darker_gray"
-    tools:context="com.tin.whattoeat.MealActivity"
+    tools:context="com.tin.whattoeat.Activity.MealActivity"
     tools:listitem="@layout/meal_list_content" />

@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.tin.whattoeat.FragmentEntryDescription;
-import com.tin.whattoeat.FragmentEntryDetail;
-import com.tin.whattoeat.NewDishActivity;
+import com.tin.whattoeat.Fragments.FragmentEntryDescription;
+import com.tin.whattoeat.Fragments.FragmentEntryDetail;
+import com.tin.whattoeat.Activity.NewDishActivity;
 
 /**
  * Created by mbp on 9/24/16.

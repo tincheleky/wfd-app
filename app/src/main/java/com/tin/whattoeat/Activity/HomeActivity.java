@@ -1,20 +1,12 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.provider.Settings;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
-import com.tin.whattoeat.Model.GlobalData;
+import com.tin.whattoeat.R;
 
 public class HomeActivity extends AppCompatActivity {
 

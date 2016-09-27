@@ -1,8 +1,7 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,17 +13,17 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.tin.whattoeat.DataAdapter.MealItemAdapter;
+import com.tin.whattoeat.Dialogs.MealDialog;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.MealItem;
 import com.tin.whattoeat.Model.Recipe;
-
+import com.tin.whattoeat.R;
+import com.tin.whattoeat.Model.DailyMeals;
 import java.util.ArrayList;
 
 /**
@@ -37,49 +36,7 @@ import java.util.ArrayList;
  */
 public class MealActivity extends AppCompatActivity
 {
-    public class DailyMeals
-    {
-        public String name;
-        public Recipe breakfastRecipe;
-        public Recipe lunchRecipe;
-        public Recipe dinnerRecipe;
 
-        public DailyMeals(int i,
-                          Recipe breakfastRecipe,
-                          Recipe lunchRecipe,
-                          Recipe dinnerRecipe)
-        {
-            this.breakfastRecipe = breakfastRecipe;
-            this.lunchRecipe = lunchRecipe;
-            this.dinnerRecipe = dinnerRecipe;
-
-            switch(i)
-            {
-                case 1:
-                    name = "Monday";
-                    break;
-                case 2:
-                    name = "Tuesday";
-                    break;
-                case 3:
-                    name = "Wednesday";
-                    break;
-                case 4:
-                    name = "Thursday";
-                    break;
-                case 5:
-                    name = "Friday";
-                    break;
-                case 6:
-                    name = "Saturday";
-                    break;
-                case 7:
-                    name = "Sunday";
-                    break;
-            }
-        }
-
-    }
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -141,28 +98,22 @@ public class MealActivity extends AppCompatActivity
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mDateName.setText(holder.mItem.name);
-            holder.mRecipeName1.setText("Eat out");
-            holder.mRecipeName2.setText("Eat out");
-            holder.mRecipeName3.setText("Eat out");
 
+            if(holder.mItem.breakfastRecipe == null)
+                holder.mRecipeName1.setText("Eat out");
+            else
+                holder.mRecipeName1.setText(holder.mItem.breakfastRecipe.getName());
 
-            ArrayList<MealItem> meals = new ArrayList<MealItem>();
-            MealItemAdapter adapter = new MealItemAdapter(activity, GlobalData.mealList);
-            LayoutInflater li = LayoutInflater.from(activity);
-            View vi =  li.inflate(R.layout.dialog_meal_selection, null);
-            ListView listView = (ListView)vi.findViewById(R.id.dialog_list_view);
-            listView.setAdapter(adapter);
+            if(holder.mItem.lunchRecipe == null)
+                holder.mRecipeName2.setText("Eat out");
+            else
+                holder.mRecipeName2.setText(holder.mItem.lunchRecipe.getName());
 
-            holder.mRecipeName1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Dialog dialog = new Dialog(activity);
-                    dialog.setContentView(vi);
-                    dialog.show();
+            if(holder.mItem.dinnerRecipe == null)
+                holder.mRecipeName3.setText("Eat out");
+            else
+                holder.mRecipeName3.setText(holder.mItem.dinnerRecipe.getName());
 
-
-                }
-            });
 
             //Picasso here
         }
@@ -190,6 +141,30 @@ public class MealActivity extends AppCompatActivity
                 mRecipeName1 = (TextView) view.findViewById(R.id.meal_1);
                 mRecipeName2 = (TextView) view.findViewById(R.id.meal_2);
                 mRecipeName3 = (TextView) view.findViewById(R.id.meal_3);
+
+                mRecipeName1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MealDialog dialog = new MealDialog(activity, mRecipeName1, mItem, 1);
+                        dialog.show();
+                    }
+                });
+
+                mRecipeName2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MealDialog dialog = new MealDialog(activity, mRecipeName2, mItem, 2);
+                        dialog.show();
+                    }
+                });
+
+                mRecipeName3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MealDialog dialog = new MealDialog(activity, mRecipeName3, mItem, 3);
+                        dialog.show();
+                    }
+                });
             }
         }
     }

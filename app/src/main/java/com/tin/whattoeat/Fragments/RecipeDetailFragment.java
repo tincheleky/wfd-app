@@ -1,7 +1,6 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Fragments;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,12 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.tin.whattoeat.Activity.RecipeDetailActivity;
+import com.tin.whattoeat.Activity.RecipeListActivity;
 import com.tin.whattoeat.DataAdapter.NewEntryPagerAdapter;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Recipe;
-import com.tin.whattoeat.dummy.DummyContent;
+import com.tin.whattoeat.R;
 
 /**
  * A fragment representing a single Recipe detail screen.

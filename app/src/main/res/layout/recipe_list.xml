@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
     android:background="@android:color/darker_gray"
-    tools:context="com.tin.whattoeat.RecipeListActivity"
+    tools:context="com.tin.whattoeat.Activity.RecipeListActivity"
     tools:listitem="@layout/recipe_list_content" />

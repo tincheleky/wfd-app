@@ -1,4 +1,4 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
+import com.tin.whattoeat.R;
 
 /**
  * Created by mbp on 9/24/16.

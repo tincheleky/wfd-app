@@ -1,4 +1,4 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,12 +10,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Recipe;
-
-import org.w3c.dom.Text;
+import com.tin.whattoeat.R;
 
 
 /**

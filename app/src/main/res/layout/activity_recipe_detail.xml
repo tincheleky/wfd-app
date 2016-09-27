@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.tin.whattoeat.RecipeDetailActivity"
+    tools:context="com.tin.whattoeat.Activity.RecipeDetailActivity"
     android:background="@android:color/holo_green_light">
 
     <android.support.v7.widget.Toolbar

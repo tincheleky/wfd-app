@@ -1,7 +1,6 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,14 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Recipe;
-import com.tin.whattoeat.dummy.DummyContent;
+import com.tin.whattoeat.R;
+import com.tin.whattoeat.Fragments.RecipeDetailFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An activity representing a list of Recipes. This activity

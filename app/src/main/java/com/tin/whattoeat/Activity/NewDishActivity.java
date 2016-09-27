@@ -1,8 +1,6 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,14 +8,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tin.whattoeat.DataAdapter.NewEntryPagerAdapter;
-
-import org.w3c.dom.Text;
-
-import java.net.URL;
+import com.tin.whattoeat.R;
 
 public class NewDishActivity extends AppCompatActivity {
 

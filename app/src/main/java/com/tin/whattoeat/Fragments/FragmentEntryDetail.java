@@ -1,14 +1,11 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,19 +21,16 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.tin.whattoeat.Activity.NewDishActivity;
+import com.tin.whattoeat.Dialogs.AddPhotoDialog;
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
 import com.tin.whattoeat.Model.Recipe;
+import com.tin.whattoeat.Dialogs.NewIngredientDialog;
+import com.tin.whattoeat.R;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 
 
 /**
@@ -134,19 +128,62 @@ public class FragmentEntryDetail extends Fragment {
             recipe = GlobalData.getRecipeFromList(targetData);
 
         String mode = getArguments().getString(MODE);
-        view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
-        ImageView imageView = (ImageView) view.findViewById(R.id.new_dish_photo);
-        EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
-        EditText description = (EditText) view.findViewById(R.id.new_dish_description);
 
         if(mode.compareToIgnoreCase("EDIT_MODE") == 0)
         {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
             // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.fragment_fragment_entry_detail, container, false);
+            ImageView imageView = (ImageView) view.findViewById(R.id.new_dish_photo);
+            EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
 
             if(recipe != null) {
                 recipeName.setText(recipe.getName());
                 ingredientsList = recipe.getIngredientsList();
+                if (recipe.getImgURI() != null) {
+                    Picasso.with(getActivity())
+                            .load(recipe.getImgURI())
+                            .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
+                            .centerCrop()
+                            .into(imageView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Picasso.with(getActivity())
+                                            .load(GlobalData.DEFAULT_PHOTO_URL)
+                                            .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
+                                            .centerCrop()
+                                            .into(imageView);
+                                }
+                            });
+                } else {
+                    if (recipe.getImgURL() != null && recipe.getImgURL().length() > 5) {
+                        Picasso.with(getActivity())
+                                .load(recipe.getImgURL())
+                                .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
+                                .centerCrop()
+                                .into(imageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+
+                                        Picasso.with(getActivity())
+                                                .load(GlobalData.DEFAULT_PHOTO_URL)
+                                                .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
+                                                .centerCrop()
+                                                .into(imageView);
+                                    }
+                                });
+                    }
+                }
 
             }
             recyclerView = (RecyclerView) view.findViewById(R.id.ingredients_add_list);
@@ -176,6 +213,13 @@ public class FragmentEntryDetail extends Fragment {
             fab2.setOnClickListener((View v) -> {
                 AddPhotoDialog dialog = new AddPhotoDialog(getContext(), url, imageView);
                 dialog.show();
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if(url[0] == null || url[0].length() < 5)
+                            url[0] = GlobalData.DEFAULT_PHOTO_URL;
+                    }
+                });
             });
 
             String[] data = new String[3];
@@ -195,27 +239,20 @@ public class FragmentEntryDetail extends Fragment {
                 ingredientPopupWindow.show();
             });
 
-            TextView addNewDish = (TextView) view.findViewById(R.id.new_dish_add);
-            addNewDish.setOnClickListener(v->{
-                Picasso.with(getActivity())
-                        .load("http://previews.123rf.com/images/blankstock/blankstock1501/blankstock150100865/35309809-Cappello-Chef-sign-icon-Simbolo-di-cottura-Cappello-Cuochi-con-piatto-caldo-Bottone-piatto-grigio-co-Archivio-Fotografico.jpg")
-                        .resize(imageView.getWidth(), imageView.getWidth())
-                        .centerCrop()
-                        .into(imageView);
-            });
-
             TextView applyBtn = (TextView) view.findViewById(R.id.new_dish_add);
             applyBtn.setOnClickListener(v->{
                 if(recipeName.getText().toString().length() == 0)
                     ;
                 else {
                     Recipe tempRecipe = GlobalData.getRecipeFromList(recipeName.getText().toString());
+                    //NEW DISH CASE
                     if(tempRecipe == null && recipe == null) {
 
                         tempRecipe = new Recipe(recipeName.getText().toString(), uri, url[0], ingredientsList, GlobalData.DESCRIPTION);
                         GlobalData.getRecipeList().add(tempRecipe);
                     }
-                    else if(recipe != null)
+                    //EDITING DISH CASE
+                    if(recipe != null)
                     {
                         recipe.setName(recipeName.getText().toString());
                         recipe.setImgURI(uri);
@@ -237,7 +274,7 @@ public class FragmentEntryDetail extends Fragment {
             if(recipe.getImgURI() != null) {
                 Picasso.with(getActivity())
                         .load(recipe.getImgURI())
-                        .resize(1600, 900)
+                        .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
                         .centerCrop()
                         .into(imageView1, new Callback() {
                             @Override
@@ -248,25 +285,10 @@ public class FragmentEntryDetail extends Fragment {
                             @Override
                             public void onError() {
                                 Picasso.with(getActivity())
-                                        .load(recipe.getImgURL())
-                                        .resize(imageView1.getWidth(), imageView1.getWidth())
+                                        .load(GlobalData.DEFAULT_PHOTO_URL)
+                                        .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
                                         .centerCrop()
-                                        .into(imageView1, new Callback() {
-                                            @Override
-                                            public void onSuccess() {
-
-                                            }
-
-                                            @Override
-                                            public void onError() {
-
-                                                Picasso.with(getActivity())
-                                                        .load(GlobalData.DEFAULT_PHOTO_URL)
-                                                        .resize(imageView1.getWidth(), imageView1.getWidth())
-                                                        .centerCrop()
-                                                        .into(imageView1);
-                                            }
-                                        });
+                                        .into(imageView1);
                             }
                         });
             }
@@ -274,7 +296,7 @@ public class FragmentEntryDetail extends Fragment {
                 if(recipe.getImgURL() != null && recipe.getImgURL().length() > 5) {
                     Picasso.with(getActivity())
                             .load(recipe.getImgURL())
-                            .resize(imageView1.getWidth(), imageView1.getWidth())
+                            .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
                             .centerCrop()
                             .into(imageView1, new Callback() {
                                 @Override
@@ -287,19 +309,11 @@ public class FragmentEntryDetail extends Fragment {
 
                                     Picasso.with(getActivity())
                                             .load(GlobalData.DEFAULT_PHOTO_URL)
-                                            .resize(imageView1.getWidth(), imageView1.getWidth())
+                                            .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
                                             .centerCrop()
                                             .into(imageView1);
                                 }
                             });
-                }
-                else
-                {
-                    Picasso.with(getActivity())
-                            .load(GlobalData.DEFAULT_PHOTO_URL)
-                            .resize(1600, 900)
-                            .centerCrop()
-                            .into(imageView1);
                 }
             }
             recyclerView = (RecyclerView) view.findViewById(R.id.recipe_detail_recycler_view);
@@ -311,8 +325,6 @@ public class FragmentEntryDetail extends Fragment {
             dataAdapter = new IngredientDataAdapter(getActivity(), recipe.getIngredientsList(), false);
 
             recyclerView.setAdapter(dataAdapter);
-//            TextView recipeName = (TextView) view.findViewById(R.id.recipe_detail_name);
-//            recipeName.setText(mode);
             //Picasso here for imageview
         }
 

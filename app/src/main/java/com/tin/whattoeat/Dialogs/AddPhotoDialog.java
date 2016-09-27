@@ -1,4 +1,4 @@
-package com.tin.whattoeat;
+package com.tin.whattoeat.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.tin.whattoeat.DataAdapter.IngredientDataAdapter;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Ingredient;
+import com.tin.whattoeat.R;
 
 import java.net.URL;
 
@@ -43,7 +44,6 @@ public class AddPhotoDialog extends Dialog
         this.context = context;
         setContentView(R.layout.dialog_adding_photo);
 
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         EditText urlTextView = (EditText) findViewById(R.id.dialog_add_photo_url);
         TextView saveBtn = (TextView) findViewById(R.id.dialog_add_photo_button);
 
