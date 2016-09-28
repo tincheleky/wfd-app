@@ -25,12 +25,14 @@ public class MealItemAdapter extends ArrayAdapter<MealItem>
     private Dialog dialog;
     private DailyMeals dailyMeals;
     private int mealType;
-    public MealItemAdapter(Context context, int resID, TextView postbackTextView, DailyMeals item, Dialog dialog, int mealType) {
+    private TextView totalMealsTextView;
+    public MealItemAdapter(Context context, int resID, TextView postbackTextView, DailyMeals item, Dialog dialog, int mealType, TextView totalMeals) {
         super(context, resID, GlobalData.selectedRecipeManager.selectedMeals);
         this.postbackTextView = postbackTextView;
         this.dialog = dialog;
         this.dailyMeals = item;
         this.mealType = mealType;
+        totalMealsTextView = totalMeals;
     }
 
     @Override
@@ -58,6 +60,7 @@ public class MealItemAdapter extends ArrayAdapter<MealItem>
                     dailyMeals.dinnerRecipe = GlobalData.selectedRecipeManager.at(position).getRecipe();
 
                 GlobalData.selectedRecipeManager.at(position).decreaseQuantity();
+                totalMealsTextView.setText(GlobalData.selectedRecipeManager.getTotalSelectedMeal() + " ready to plan");
                 if(GlobalData.selectedRecipeManager.at(position).getQuantity() == 0)
                 {
                     GlobalData.selectedRecipeManager.selectedMeals.remove(GlobalData.selectedRecipeManager.at(position));

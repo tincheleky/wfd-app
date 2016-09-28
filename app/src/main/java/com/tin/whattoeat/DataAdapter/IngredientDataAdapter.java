@@ -20,14 +20,15 @@ import java.util.ArrayList;
 
 public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAdapter.ViewHolder>
 {
-    ArrayList<Ingredient> dataIngredient = new ArrayList<>();
+    public ArrayList<Ingredient> dataIngredient = new ArrayList<>();
     private boolean editable = true;
     IngredientDataAdapter ida;
     Activity activity;
 
     public IngredientDataAdapter(Activity activity)
     {
-        ida = this; dataIngredient = new ArrayList<>();
+        ida = this;
+        dataIngredient = new ArrayList<>();
         this.activity = activity;
     }
 
@@ -43,32 +44,18 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
         public TextView ingredientName;
         public TextView ingredientQuantity;
         public TextView ingredientUnit;
+        public View view;
 
         public Ingredient mItem;
 
         ViewHolder(View v)
         {
             super(v);
-
+            view = v;
             ingredientName = (TextView) v.findViewById(R.id.ingredient_name);
             ingredientQuantity = (TextView) v.findViewById(R.id.ingredient_quantity);
             ingredientUnit = (TextView) v.findViewById(R.id.ingredient_unit);
-            if(editable) {
-                v.setOnClickListener((View view) -> {
-                    System.out.println("Click on me, Testing ingredient item onClick");
-                    String data[] = new String[3];
-                    data[0] = ingredientName.getText().toString();
-                    data[1] = ingredientQuantity.getText().toString();
-                    data[2] = ingredientUnit.getText().toString();
-                    NewIngredientDialog ingredientPopupWindow = new NewIngredientDialog(activity,
-                            ida,
-                            data,
-                            GlobalData.ingredientsToString(),
-                            GlobalData.unitToString());
-                    ingredientPopupWindow.show();
-                    System.out.println();
-                });
-            }
+
         }
     }
 
@@ -88,12 +75,31 @@ public class IngredientDataAdapter extends RecyclerView.Adapter<IngredientDataAd
         holder.ingredientName.setText(dataIngredient.get(position).getIngName());
         holder.ingredientUnit.setText(dataIngredient.get(position).getUnit());
         holder.ingredientQuantity.setText(String.valueOf(dataIngredient.get(position).getQuantity()));
+
+        if(editable) {
+            holder.view.setOnClickListener((View view) -> {
+                //System.out.println("Click on me, Testing ingredient item onClick");
+                String data[] = new String[3];
+                data[0] = holder.ingredientName.getText().toString();
+                data[1] = holder.ingredientQuantity.getText().toString();
+                data[2] = holder.ingredientUnit.getText().toString();
+                NewIngredientDialog ingredientPopupWindow = new NewIngredientDialog(activity,
+                        ida,
+                        data, null, position);
+                ingredientPopupWindow.show();
+                System.out.println();
+            });
+        }
     }
 
     public void addItem(Ingredient ing)
     {
         dataIngredient.add(0, ing);
         notifyItemChanged(0);
+        notifyDataSetChanged();
+    }
+    public void update()
+    {
         notifyDataSetChanged();
     }
     @Override

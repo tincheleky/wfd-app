@@ -138,8 +138,16 @@ public class FragmentEntryDetail extends Fragment {
             EditText recipeName = (EditText) view.findViewById(R.id.new_dish_name);
 
             if(recipe != null) {
+
                 recipeName.setText(recipe.getName());
                 ingredientsList = recipe.getIngredientsList();
+                uri = recipe.getImgURI();
+                if(ingredientsList == null)
+                {
+                    System.out.println("WEIRD");
+                    ingredientsList = new ArrayList<>();
+                    recipe.setIngredientsList(ingredientsList);
+                }
                 if (recipe.getImgURI() != null) {
                     Picasso.with(getActivity())
                             .load(recipe.getImgURI())
@@ -193,9 +201,14 @@ public class FragmentEntryDetail extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
 
             if(recipe != null)
+            {
                 dataAdapter = new IngredientDataAdapter(getActivity(), recipe.getIngredientsList(), true);
+            }
             else
-                dataAdapter = new IngredientDataAdapter(getActivity());
+            {
+                dataAdapter = new IngredientDataAdapter(getActivity(), ingredientsList, true);
+
+            }
 
             recyclerView.setAdapter(dataAdapter);
 
@@ -218,25 +231,51 @@ public class FragmentEntryDetail extends Fragment {
                     public void onDismiss(DialogInterface dialog) {
                         if(url[0] == null || url[0].length() < 5)
                             url[0] = GlobalData.DEFAULT_PHOTO_URL;
+                        else
+                        {
+                            System.out.println("URL : " + url[0]);
+                            Picasso.with(getActivity())
+                                    .load(url[0])
+                                    .resize(GlobalData.DEFAULT_PHOTO_WIDTH, GlobalData.DEFAULT_PHOTO_HEIGHT)
+                                    .centerCrop()
+                                    .into(imageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            System.out.println("STH WRONG");
+                                        }
+                                    });
+
+                        }
                     }
                 });
             });
 
-            String[] data = new String[3];
+
 
             TextView addNewIngredient = (TextView) view.findViewById(R.id.btn_add_new_ingredient);
             addNewIngredient.setOnClickListener((View v) -> {
+                String[] data = new String[3];
                 NewIngredientDialog ingredientPopupWindow = new NewIngredientDialog(getContext(),
                         (IngredientDataAdapter) dataAdapter,
-                        data,
-                        GlobalData.ingredientsToString(),
-                        GlobalData.unitToString());
-                ingredientPopupWindow.setOnDismissListener((dialog)->{
-                    if(data[0] != null && data[1] != null && data[2] != null)
-                        ingredientsList.add(new Ingredient(data[0], data[2], Double.valueOf(data[1])));
-
-                });
+                        data, ingredientsList, -1);
                 ingredientPopupWindow.show();
+            });
+
+            recipeName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus == false){
+                        Recipe tempRecipe = GlobalData.getRecipeFromList(recipeName.getText().toString());
+                        if(tempRecipe != null) {
+                            Toast.makeText(getContext(), "Recipe is already existed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
             });
 
             TextView applyBtn = (TextView) view.findViewById(R.id.new_dish_add);
@@ -246,10 +285,15 @@ public class FragmentEntryDetail extends Fragment {
                 else {
                     Recipe tempRecipe = GlobalData.getRecipeFromList(recipeName.getText().toString());
                     //NEW DISH CASE
-                    if(tempRecipe == null && recipe == null) {
-
+                    if(tempRecipe == null && recipe == null)
+                    {
                         tempRecipe = new Recipe(recipeName.getText().toString(), uri, url[0], ingredientsList, GlobalData.DESCRIPTION);
                         GlobalData.getRecipeList().add(tempRecipe);
+                        getActivity().finish();
+                    }
+                    if(tempRecipe != null)
+                    {
+                        Toast.makeText(getContext(), "Recipe is already existed", Toast.LENGTH_SHORT).show();
                     }
                     //EDITING DISH CASE
                     if(recipe != null)
@@ -259,9 +303,9 @@ public class FragmentEntryDetail extends Fragment {
                         recipe.setImgURL(url[0]);
                         recipe.setDescription(GlobalData.DESCRIPTION);
                         recipe.setIngredientsList(ingredientsList);
-                    }
+                        getActivity().finish();
 
-                    getActivity().finish();
+                    }
                 }
             });
 

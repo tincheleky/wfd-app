@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="27dp"
     android:weightSum="100"
-    android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp">
 
 

@@ -28,16 +28,14 @@ public class MealDialog extends Dialog
     private Context context;
     private MealItemAdapter adapter;
 
-    public MealDialog(Context context, TextView postbackTextView, DailyMeals dailyMeals, int mealType) {
+    public MealDialog(Context context, TextView postbackTextView, DailyMeals dailyMeals, int mealType, TextView totalMeals) {
         super(context);
         this.context = context;
         setContentView(R.layout.dialog_meal_selection);
-        adapter = new MealItemAdapter(context, R.layout.dialog_list_item_content, postbackTextView, dailyMeals, this, mealType);
+        adapter = new MealItemAdapter(context, R.layout.dialog_list_item_content, postbackTextView, dailyMeals, this, mealType, totalMeals);
         ListView listView = (ListView) findViewById(R.id.dialog_list_view);
         listView.setAdapter(adapter);
         setTitle(GlobalData.selectedRecipeManager.getTotalSelectedMeal() + " selected meals");
-
-
 
     }
 }

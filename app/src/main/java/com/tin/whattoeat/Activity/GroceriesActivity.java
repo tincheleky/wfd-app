@@ -94,8 +94,9 @@ public class GroceriesActivity extends AppCompatActivity
             holder.mGroceriesItemRemove.setVisibility(ImageView.INVISIBLE);
             holder.mGroceriesItemRemove.setEnabled(false);
 
-            //Picasso here
-
+            if(Integer.valueOf(holder.mGroceriesItemQuantity.getText().toString()) == 0){
+                holder.mGroceriesItemName.setPaintFlags(holder.mGroceriesItemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
             holder.mView.setOnClickListener(v -> {
                 //WHAT HAPPENS IF CLICKED
             });

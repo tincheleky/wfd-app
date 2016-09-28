@@ -119,7 +119,8 @@
             android:layout_height="match_parent"
             android:weightSum="100"
             android:layout_weight="50"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:onClick="startGroceriesActivity">
 
             <ImageView
                 android:id="@+id/home_sub3_img"
@@ -128,7 +129,7 @@
                 android:layout_weight="80"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_get_app_black_24dp"
-                android:onClick="startGroceriesActivity"/>
+                />
             <TextView
                 android:id="@+id/home_sub3_text"
                 android:layout_width="match_parent"
@@ -147,7 +148,8 @@
             android:layout_height="match_parent"
             android:weightSum="100"
             android:layout_weight="50"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:onClick="startNewDishActivity">
 
             <ImageView
                 android:id="@+id/home_sub4_img"
@@ -156,7 +158,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="80"
                 android:src="@drawable/ic_add_black_24dp"
-                android:onClick="startNewDishActivity"/>
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

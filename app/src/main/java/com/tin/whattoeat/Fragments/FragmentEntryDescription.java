@@ -89,8 +89,10 @@ public class FragmentEntryDescription extends Fragment {
 
             }
         });
-        if(recipe != null)
+        if(recipe != null) {
             description.setText(recipe.getDescription());
+            view.findViewById(R.id.save_description).setVisibility(View.GONE);
+        }
         if(getArguments().getString(MODE).compareToIgnoreCase("EDIT_MODE") != 0)
             description.setFocusable(false);
         else

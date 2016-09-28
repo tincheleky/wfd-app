@@ -3,6 +3,7 @@ package com.tin.whattoeat.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.tin.whattoeat.Model.GlobalData;
@@ -105,7 +107,19 @@ public class RecipeListActivity extends AppCompatActivity {
                             .commit();
                 } else {
                     GlobalData.selectedRecipeManager.addSelectedRecipe(holder.mItem);
+                    GlobalData.groceriesManager.addSelectedRecipe(holder.mItem);
+                    Toast.makeText(activity, "Item added to Planner", Toast.LENGTH_SHORT).show();
                 }
+            });
+
+            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent intent = new Intent(activity, NewDishActivity.class);
+                    intent.putExtra(NewDishActivity.TARGET, holder.mItem.getName());
+                    startActivity(intent);
+                    System.out.println("LONG PRESSED ON ITEM CONSUMED: " + holder.mItem.getName());
+                    return true;                    }
             });
         }
 
@@ -127,15 +141,6 @@ public class RecipeListActivity extends AppCompatActivity {
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Intent intent = new Intent(activity, NewDishActivity.class);
-                        intent.putExtra(NewDishActivity.TARGET, mItem.getName());
-                        startActivity(intent);
-                        System.out.println("LONG PRESSED ON ITEM CONSUMED: " + mItem.getName());
-                        return true;                    }
-                });
 
                 mRecipeName = (TextView) view.findViewById(R.id.recipe_name);
                 mRecipeNutrition = (TextView) view.findViewById(R.id.recipe_nutrition);

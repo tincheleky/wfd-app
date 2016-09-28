@@ -24,6 +24,9 @@ import com.tin.whattoeat.Model.MealItem;
 import com.tin.whattoeat.Model.Recipe;
 import com.tin.whattoeat.R;
 import com.tin.whattoeat.Model.DailyMeals;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -43,6 +46,7 @@ public class MealActivity extends AppCompatActivity
      * device.
      */
     Activity activity;
+    private TextView totalMeals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,8 @@ public class MealActivity extends AppCompatActivity
         toolbar.setTitle("Meals");
 
         TextView totalMeals = (TextView) findViewById(R.id.meal_total_meals);
-        totalMeals.setText(GlobalData.selectedRecipeManager.getTotalSelectedMeal() + " selected meals");
+        this.totalMeals = totalMeals;
+        totalMeals.setText(GlobalData.selectedRecipeManager.getTotalSelectedMeal() + " ready to plan");
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -124,7 +129,7 @@ public class MealActivity extends AppCompatActivity
         }
 
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
             public final View mView;
             public final TextView mDateName;
@@ -145,28 +150,33 @@ public class MealActivity extends AppCompatActivity
                 mRecipeName1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MealDialog dialog = new MealDialog(activity, mRecipeName1, mItem, 1);
+                        MealDialog dialog = new MealDialog(activity, mRecipeName1, mItem, 1, totalMeals);
                         dialog.show();
                     }
                 });
+
 
                 mRecipeName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MealDialog dialog = new MealDialog(activity, mRecipeName2, mItem, 2);
+                        MealDialog dialog = new MealDialog(activity, mRecipeName2, mItem, 2, totalMeals);
                         dialog.show();
                     }
                 });
 
+
                 mRecipeName3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MealDialog dialog = new MealDialog(activity, mRecipeName3, mItem, 3);
+                        MealDialog dialog = new MealDialog(activity, mRecipeName3, mItem, 3, totalMeals);
                         dialog.show();
                     }
                 });
             }
         }
+
+
+
     }
 
     @Override
