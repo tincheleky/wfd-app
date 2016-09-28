@@ -14,6 +14,7 @@ public class Recipe
     private String imgURL;
     private ArrayList<Ingredient> ingredientsList;
     private String Description;
+    private NutritionList nutritionList;
 
     public Recipe(String name, Uri imgURI, String imgURL, ArrayList<Ingredient> ingredientsList, String description) {
         this.name = name;
@@ -21,6 +22,23 @@ public class Recipe
         this.imgURL = imgURL;
         this.ingredientsList = ingredientsList;
         Description = description;
+    }
+
+    public Recipe(String name, Uri imgURI, String imgURL, ArrayList<Ingredient> ingredientsList, String description, NutritionList nutritionList) {
+        this.name = name;
+        this.imgURI = imgURI;
+        this.imgURL = imgURL;
+        this.ingredientsList = ingredientsList;
+        Description = description;
+        this.nutritionList = nutritionList;
+    }
+
+    public NutritionList getNutritionList() {
+        return nutritionList;
+    }
+
+    public void setNutritionList(NutritionList nutritionList) {
+        this.nutritionList = nutritionList;
     }
 
     public Recipe() {

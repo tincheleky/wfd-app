@@ -2,10 +2,12 @@ package com.tin.whattoeat.Activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -104,6 +107,37 @@ public class MealActivity extends AppCompatActivity
             holder.mItem = mValues.get(position);
             holder.mDateName.setText(holder.mItem.name);
 
+            holder.mGoal.setText("Goal : " + GlobalData.Goal[holder.mItem.mealType]);
+
+            holder.mGoal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_goal_input, null);
+                    TextView applyView = (TextView)dialogView.findViewById(R.id.goal_apply);
+                    EditText inputView =(EditText)dialogView.findViewById(R.id.goal_input_textview);
+
+                    builder.setView(dialogView);
+                    Dialog dialog = builder.create();
+
+                    applyView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(inputView.getText().toString() != null && inputView.getText().toString().length() > 0)
+                            {
+                                System.out.println("STEP: " + inputView.getText().toString());
+                                GlobalData.Goal[holder.mItem.mealType] = Integer.valueOf(inputView.getText().toString());
+                                holder.mGoal.setText("Your goal : " + GlobalData.Goal[holder.mItem.mealType]);
+                            }
+
+                            System.out.println("STEP: " + inputView.getText().toString());
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+            });
+
             if(holder.mItem.breakfastRecipe == null)
                 holder.mRecipeName1.setText("Eat out");
             else
@@ -118,6 +152,8 @@ public class MealActivity extends AppCompatActivity
                 holder.mRecipeName3.setText("Eat out");
             else
                 holder.mRecipeName3.setText(holder.mItem.dinnerRecipe.getName());
+
+
 
 
             //Picasso here
@@ -136,6 +172,7 @@ public class MealActivity extends AppCompatActivity
             public final TextView mRecipeName1;
             public final TextView mRecipeName2;
             public final TextView mRecipeName3;
+            public final TextView mGoal;
 
             public DailyMeals mItem;
 
@@ -146,11 +183,36 @@ public class MealActivity extends AppCompatActivity
                 mRecipeName1 = (TextView) view.findViewById(R.id.meal_1);
                 mRecipeName2 = (TextView) view.findViewById(R.id.meal_2);
                 mRecipeName3 = (TextView) view.findViewById(R.id.meal_3);
+                mGoal = (TextView) view.findViewById(R.id.meal_goal);
 
                 mRecipeName1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         MealDialog dialog = new MealDialog(activity, mRecipeName1, mItem, 1, totalMeals);
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                String rString = "";
+                                int breakfast = 0;
+                                int lunch = 0;
+                                int dinner = 0;
+                                if(mItem.breakfastRecipe != null)
+                                    breakfast = mItem.breakfastRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+                                if(mItem.lunchRecipe != null)
+                                    lunch = mItem.lunchRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+                                if(mItem.dinnerRecipe != null)
+                                    dinner = mItem.dinnerRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+
+                                int totalCalo = breakfast + lunch + dinner;
+
+                                if(totalCalo >  GlobalData.Goal[mItem.mealType])
+                                    rString = "not reach";
+                                else
+                                    rString =  "reach";
+
+                                mGoal.setText("Goal " + rString + " (" + totalCalo + "/" + GlobalData.Goal[mItem.mealType] +")");
+                            }
+                        });
                         dialog.show();
                     }
                 });
@@ -160,6 +222,30 @@ public class MealActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         MealDialog dialog = new MealDialog(activity, mRecipeName2, mItem, 2, totalMeals);
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                String rString = "";
+                                int breakfast = 0;
+                                int lunch = 0;
+                                int dinner = 0;
+                                if(mItem.breakfastRecipe != null)
+                                    breakfast = mItem.breakfastRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+                                if(mItem.lunchRecipe != null)
+                                    lunch = mItem.lunchRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+                                if(mItem.dinnerRecipe != null)
+                                    dinner = mItem.dinnerRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+
+                                int totalCalo = breakfast + lunch + dinner;
+
+                                if(totalCalo >  GlobalData.Goal[mItem.mealType])
+                                    rString = "not reach";
+                                else
+                                    rString =  "reach";
+
+                                mGoal.setText("Goal " + rString + " (" + totalCalo + "/" + GlobalData.Goal[mItem.mealType] +")");
+                            }
+                        });
                         dialog.show();
                     }
                 });
@@ -169,14 +255,36 @@ public class MealActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         MealDialog dialog = new MealDialog(activity, mRecipeName3, mItem, 3, totalMeals);
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                String rString = "";
+                                int breakfast = 0;
+                                int lunch = 0;
+                                int dinner = 0;
+                                if(mItem.breakfastRecipe != null)
+                                    breakfast = mItem.breakfastRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+                                if(mItem.lunchRecipe != null)
+                                    lunch = mItem.lunchRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+                                if(mItem.dinnerRecipe != null)
+                                    dinner = mItem.dinnerRecipe.getNutritionList().getNutritionList().get(0).getCalo();
+
+                                int totalCalo = breakfast + lunch + dinner;
+
+                                if(totalCalo >  GlobalData.Goal[mItem.mealType])
+                                    rString = "not reach";
+                                else
+                                    rString =  "reach";
+
+                                mGoal.setText("Goal " + rString + " (" + totalCalo + "/" + GlobalData.Goal[mItem.mealType] +")");
+                            }
+                        });
                         dialog.show();
+
                     }
                 });
             }
         }
-
-
-
     }
 
     @Override

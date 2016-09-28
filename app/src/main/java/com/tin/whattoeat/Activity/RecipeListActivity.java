@@ -1,6 +1,7 @@
 package com.tin.whattoeat.Activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.tin.whattoeat.Dialogs.NutritionDialog;
 import com.tin.whattoeat.Model.GlobalData;
 import com.tin.whattoeat.Model.Recipe;
 import com.tin.whattoeat.R;
@@ -109,6 +111,13 @@ public class RecipeListActivity extends AppCompatActivity {
                     GlobalData.selectedRecipeManager.addSelectedRecipe(holder.mItem);
                     GlobalData.groceriesManager.addSelectedRecipe(holder.mItem);
                     Toast.makeText(activity, "Item added to Planner", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            holder.mRecipeNutrition.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog dialog = new NutritionDialog(activity, holder.mItem);
                 }
             });
 

@@ -287,7 +287,7 @@ public class FragmentEntryDetail extends Fragment {
                     //NEW DISH CASE
                     if(tempRecipe == null && recipe == null)
                     {
-                        tempRecipe = new Recipe(recipeName.getText().toString(), uri, url[0], ingredientsList, GlobalData.DESCRIPTION);
+                        tempRecipe = new Recipe(recipeName.getText().toString(), uri, url[0], ingredientsList, GlobalData.DESCRIPTION, GlobalData.initDummyNutritionList());
                         GlobalData.getRecipeList().add(tempRecipe);
                         getActivity().finish();
                     }

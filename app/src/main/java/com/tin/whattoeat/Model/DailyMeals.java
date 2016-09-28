@@ -8,6 +8,7 @@ public class DailyMeals
     public Recipe breakfastRecipe;
     public Recipe lunchRecipe;
     public Recipe dinnerRecipe;
+    public int mealType;
 
     public DailyMeals(int i,
                       Recipe breakfastRecipe,
@@ -17,6 +18,7 @@ public class DailyMeals
         this.breakfastRecipe = breakfastRecipe;
         this.lunchRecipe = lunchRecipe;
         this.dinnerRecipe = dinnerRecipe;
+        mealType = i;
 
         switch(i)
         {
